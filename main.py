@@ -119,7 +119,7 @@ async def close(ctx):
                 file.write(f"{time} - {msg.author.display_name}: {msg.clean_content}\n")
 
         embed = discord.Embed(
-                description=f'Ticket schließt in 5 Sekunden automatisch!',
+                description=f'Ticket is closing in 5 seconds!',
                 color=0xff0000)
         embed2 = discord.Embed(title="Ticket Closed!", description=f"Ticket-Name: {closed}\n Closed-From: {ctx.author.display_name}\n Transcript: ", color=discord.colour.Color.orange())
         file = discord.File(fileName)

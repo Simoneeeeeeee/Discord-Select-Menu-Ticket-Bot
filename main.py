@@ -7,7 +7,7 @@ from pytz import timezone
 bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 
 GUILD_ID = 123
-TICKET_CHANNEL = 123
+TICKET_CHANNEL = 123 
 
 CATEGORY_ID1 = 123 #Support1 Channel
 CATEGORY_ID2 = 123 #Support2 Channel

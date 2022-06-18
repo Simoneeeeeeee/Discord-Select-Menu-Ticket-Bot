@@ -1,1 +1,1 @@
-<h1 aling=center>Discord-Ticket-Bot</h1>
+<h1 align=center>Discord-Ticket-Bot</h1>

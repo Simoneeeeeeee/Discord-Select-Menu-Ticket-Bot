@@ -3,6 +3,6 @@
 
 ### Requirements
 - ### Install all Required Modules
-    ```pip install py-cord==2.0.0rc1```
-    ```pip install asyncio```
+    ```pip install py-cord==2.0.0rc1```\n
+    ```pip install asyncio```\n
     ```pip install pytz```

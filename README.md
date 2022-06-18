@@ -3,9 +3,9 @@
 
 ### Requirements
 - ### Install all Required Modules
-    ```pip install py-cord==2.0.0rc1```
-    ```pip install asyncio```
-    ```pip install pytz```
+    - ```pip install py-cord==2.0.0rc1```
+    - ```pip install asyncio```
+    - ```pip install pytz```
 
 
 - ### Discord

@@ -7,7 +7,7 @@ from pytz import timezone
 bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 
 GUILD_ID = 123
-TICKET_CHANNEL = 123 
+TICKET_CHANNEL = 123
 
 CATEGORY_ID1 = 123 #Support1 Channel
 CATEGORY_ID2 = 123 #Support2 Channel
@@ -15,7 +15,7 @@ CATEGORY_ID2 = 123 #Support2 Channel
 TEAM_ROLE1 = 123 #Permissions for Support1
 TEAM_ROLE2 = 123 #Permissions for Support2
 
-LOG_CHANNEL = 123 #Channel_ID
+LOG_CHANNEL = 123 #Log Channel
 
 @bot.event
 async def on_ready():
@@ -27,7 +27,7 @@ class MyView(discord.ui.View):
         super().__init__(timeout=None)
 
     @discord.ui.select(
-        custom_id="test",
+        custom_id="support",
         options=[
             discord.SelectOption(
                 label="Support1",
@@ -103,8 +103,9 @@ class MyView(discord.ui.View):
 @commands.is_owner()
 @bot.command()
 async def ticket(ctx):
+    channel = bot.get_channel(TICKET_CHANNEL)
     embed = discord.Embed(title="Support-Tickets", color=discord.colour.Color.orange())
-    await ctx.send(embed=embed, view=MyView())
+    await channel.send(embed=embed, view=MyView())
 
 @bot.command()
 async def close(ctx):
@@ -119,7 +120,7 @@ async def close(ctx):
                 file.write(f"{time} - {msg.author.display_name}: {msg.clean_content}\n")
 
         embed = discord.Embed(
-                description=f'Ticket is closing in 5 seconds!',
+                description=f'Ticket schließt in 5 Sekunden automatisch!',
                 color=0xff0000)
         embed2 = discord.Embed(title="Ticket Closed!", description=f"Ticket-Name: {closed}\n Closed-From: {ctx.author.display_name}\n Transcript: ", color=discord.colour.Color.orange())
         file = discord.File(fileName)

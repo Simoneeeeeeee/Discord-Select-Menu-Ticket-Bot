@@ -28,13 +28,16 @@ class MyView(discord.ui.View):
 
     @discord.ui.select(
         custom_id="support",
+        placeholder="Choose a Ticket option",
         options=[
             discord.SelectOption(
                 label="Support1",
+                emoji="❓",
                 value="support1"
             ),
             discord.SelectOption(
                 label="Support2",
+                emoji="❓",
                 value="support2"
             )
         ]

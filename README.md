@@ -11,4 +11,4 @@
 
 - ### Discord
     - Add me for Questions 
-    - ```Simone#2000```
+    - ```Simone#0782```

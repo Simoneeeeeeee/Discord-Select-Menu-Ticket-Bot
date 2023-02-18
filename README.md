@@ -1,9 +1,6 @@
 <h1 align=center>Discord-Ticket-Bot</h1>
 
-<p><img align="left" src="https://github-readme-stats.vercel.app/api/top-langs?username=simoneeeeeeee&show_icons=true&locale=en&layout=compact" alt="simoneeeeeeee" /></p>
-<p>&nbsp;<img align="center" src="https://github-readme-stats.vercel.app/api?username=simoneeeeeeee&show_icons=true&locale=en" alt="simoneeeeeeee" /></p>
-<p><img align="center" src="https://github-readme-streak-stats.herokuapp.com/?user=simoneeeeeeee&" alt="simoneeeeeeee" /></p>
-
+<p align="left"> <img src="https://komarev.com/ghpvc/?username=simoneeeeeeee&label=Profile%20views&color=0e75b6&style=flat" alt="simoneeeeeeee" /> </p>
 <p align=center><a href="https://github.com/Simoneeeeeeee/Discord-Select-Menu-Ticket-Bot/archive/refs/heads/main.zip"><img src="https://custom-icon-badges.demolab.com/badge/-Download-F25278?style=for-the-badge&logo=download&logoColor=white" align=center><a></p>
 
 ### This is a Simple Ticket-Bot with a Select Menu and its easy to Customize

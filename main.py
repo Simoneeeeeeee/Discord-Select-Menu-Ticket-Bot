@@ -43,7 +43,7 @@ class MyView(discord.ui.View):
             )
         ]
     )
-    async def callback(self, select, interaction):
+        async def callback(self, select, interaction):
         if "support1" in interaction.data['values']:
             if interaction.channel.id == TICKET_CHANNEL:
                 guild = bot.get_guild(GUILD_ID)
@@ -51,9 +51,7 @@ class MyView(discord.ui.View):
                     if str(interaction.user.id) in ticket.name:
                         embed = discord.Embed(title=f"You can only open one Ticket!", description=f"Here is your opend Ticket --> {ticket.mention}", color=0xff0000)
                         await interaction.response.send_message(embed=embed, ephemeral=True)
-                        return 
-                default = discord.Embed(title="Support-Tickets", color=discord.colour.Color.blue())
-                await interaction.response.edit_message(embed=default, view=MyView())
+                        return
                 category = bot.get_channel(CATEGORY_ID1)
                 ticket_channel = await guild.create_text_channel(f"ticket-{interaction.user.id}", category=category,
                                                                 topic=f"Ticket from {interaction.user} \nUser-ID: {interaction.user.id}")

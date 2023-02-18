@@ -2,7 +2,7 @@
 
 <p align=center>
 <img src="https://komarev.com/ghpvc/?username=simoneeeeeeee&label=Profile%20views&color=orange&style=for-the-badge" alt="simoneeeeeeee"/>
-<img src="https://github.com/catppuccin/github-readme-stats/stargazers">
+<img src="https://github.com/Simoneeeeeeee/github-readme-stats/stargazers">
 <a href="https://github.com/Simoneeeeeeee/Discord-Select-Menu-Ticket-Bot/archive/refs/heads/main.zip"><img src="https://custom-icon-badges.demolab.com/badge/-Download-F25278?style=for-the-badge&logo=download&logoColor=white"><a>
 </p>
 

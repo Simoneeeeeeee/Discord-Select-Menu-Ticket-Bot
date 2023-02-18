@@ -1,5 +1,5 @@
 <h1 align=center>Discord-Ticket-Bot</h1>
-<p align=center>![](https://img.shields.io/static/v1?label=Profile+views&message=1234567890&color=orange)</p>
+<img src="![](https://img.shields.io/static/v1?label=Profile+views&message=1234567890&color=orange)">
 <p align=center><a href="https://github.com/Simoneeeeeeee/Discord-Select-Menu-Ticket-Bot/archive/refs/heads/main.zip"><img src="https://custom-icon-badges.demolab.com/badge/-Download-F25278?style=for-the-badge&logo=download&logoColor=white" align=center><a></p>
 
 ### This is a Simple Ticket-Bot with a Select Menu and its easy to Customize

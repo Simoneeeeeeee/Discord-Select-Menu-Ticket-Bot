@@ -1,4 +1,4 @@
-<h1 align=center>Discord-Ticket-Bot</h1>
+<p align=center><a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=500&size=36&duration=4000&pause=1000&color=F78911&width=435&lines=Discord-Select-Menu-Ticket-Bot" alt="Typing SVG" /></a></p>
 
 <p align=center>
 <img src="https://komarev.com/ghpvc/?username=simoneeeeeeee&label=Profile%20views&color=orange&style=for-the-badge" alt="simoneeeeeeee"/>

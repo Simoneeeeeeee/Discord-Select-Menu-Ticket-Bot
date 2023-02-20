@@ -8,7 +8,7 @@
 
 ### This is a Simple Ticket-Bot with a Select Menu and its easy to Customize
 - ### Install all Required Modules
-    - ```py -3 -m pip install -U py-cord --pre``` 
+    - ```pip install py-cord==2.4.0``` 
     - ```pip install asyncio```
     - ```pip install pytz```
 - ### How to use Custom emojis from your Discors Server in the Select Menu

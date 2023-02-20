@@ -6,7 +6,7 @@
 <a href="https://github.com/Simoneeeeeeee/Discord-Select-Menu-Ticket-Bot/archive/refs/heads/main.zip"><img src="https://custom-icon-badges.demolab.com/badge/-Download-F25278?style=for-the-badge&logo=download&logoColor=white"><a>
 </p>
 
-### This is a Simple Ticket-Bot with a Select Menu and its easy to Customize
+### This is a Simple Ticket-Bot with a Select Menu and its easy to Customize by using Py-Cord
 - ### Install all Required Modules
     - ```pip install py-cord==2.4.0``` 
     - ```pip install asyncio```

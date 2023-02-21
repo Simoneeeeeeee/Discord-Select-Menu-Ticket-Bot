@@ -7,6 +7,9 @@
 </p>
 
 ### This is a Simple Ticket-Bot with a Select Menu and its easy to Customize by using Py-Cord
+- ### Updates
+    - Added a Close button in the Ticket and removed the Close command.
+    - SelectMenu now resets the option after usage from a User so other users can use it too.
 - ### Install all Required Modules
     - ```pip install py-cord==2.4.0``` 
     - ```pip install asyncio```

@@ -2,12 +2,13 @@ import discord
 import asyncio
 from discord.ui import *
 from discord.ext import commands
+from discord.ext.commands import has_permissions
 from pytz import timezone
 
 bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 
 GUILD_ID = 123 #Server ID
-TICKET_CHANNEL = 123 
+TICKET_CHANNEL = 123 #Where the bot should send the Embed + SelectMenu
 
 CATEGORY_ID1 = 123 #Support1 Channel
 CATEGORY_ID2 = 123 #Support2 Channel
@@ -43,7 +44,7 @@ class MyView(discord.ui.View):
             )
         ]
     )
-        async def callback(self, select, interaction):
+    async def callback(self, select, interaction):
         if "support1" in interaction.data['values']:
             if interaction.channel.id == TICKET_CHANNEL:
                 guild = bot.get_guild(GUILD_ID)
@@ -51,6 +52,9 @@ class MyView(discord.ui.View):
                     if str(interaction.user.id) in ticket.name:
                         embed = discord.Embed(title=f"You can only open one Ticket!", description=f"Here is your opend Ticket --> {ticket.mention}", color=0xff0000)
                         await interaction.response.send_message(embed=embed, ephemeral=True)
+                        await asyncio.sleep(3)
+                        embed = discord.Embed(title="Support-Tickets", color=discord.colour.Color.blue())
+                        await interaction.message.edit(embed=embed, view=MyView())
                         return
                 category = bot.get_channel(CATEGORY_ID1)
                 ticket_channel = await guild.create_text_channel(f"ticket-{interaction.user.id}", category=category,
@@ -71,6 +75,9 @@ class MyView(discord.ui.View):
                 embed = discord.Embed(description=f'📬 Ticket was Created! Look here --> {ticket_channel.mention}',
                                         color=discord.colour.Color.green())
                 await interaction.response.send_message(embed=embed, ephemeral=True)
+                await asyncio.sleep(3)
+                embed = discord.Embed(title="Support-Tickets", color=discord.colour.Color.blue())
+                await interaction.message.edit(embed=embed, view=MyView())
                 return
         if "support2" in interaction.data['values']:
             if interaction.channel.id == TICKET_CHANNEL:
@@ -79,6 +86,9 @@ class MyView(discord.ui.View):
                     if str(interaction.user.id) in ticket.name:
                         embed = discord.Embed(title=f"You can only open one Ticket", description=f"Here is your opend Ticket --> {ticket.mention}", color=0xff0000)
                         await interaction.response.send_message(embed=embed, ephemeral=True)
+                        await asyncio.sleep(3)
+                        embed = discord.Embed(title="Support-Tickets", color=discord.colour.Color.blue())
+                        await interaction.message.edit(embed=embed, view=MyView())
                         return 
                 category = bot.get_channel(CATEGORY_ID2)
                 ticket_channel = await guild.create_text_channel(f"ticket-{interaction.user.id}", category=category,
@@ -98,6 +108,10 @@ class MyView(discord.ui.View):
                 embed = discord.Embed(description=f'📬 Ticket was Created! Look here --> {ticket_channel.mention}',
                                         color=discord.colour.Color.green())
                 await interaction.response.send_message(embed=embed, ephemeral=True)
+
+                await asyncio.sleep(3)
+                embed = discord.Embed(title="Support-Tickets", color=discord.colour.Color.blue())
+                await interaction.message.edit(embed=embed, view=MyView())
         return
 
 class delete(discord.ui.View):
@@ -127,10 +141,10 @@ class delete(discord.ui.View):
         await interaction.channel.delete(reason="Ticket closed by user")
 
 @bot.command()
+@has_permissions(administrator=True)
 async def ticket(ctx):
     channel = bot.get_channel(TICKET_CHANNEL)
     embed = discord.Embed(title="Support-Tickets", color=discord.colour.Color.blue())
     await channel.send(embed=embed, view=MyView())
-
 
 bot.run("Token")

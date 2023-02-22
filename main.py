@@ -1,7 +1,7 @@
 #Version: 1.3
 #GitHub: https://github.com/Simoneeeeeeee/Discord-Select-Menu-Ticket-Bot
 #Discord: Simone#0782
-#This Bot is using Py-Cord as API wrapper
+#This Bot is using Py-Cord as Discord API wrapper
 
 
 import discord

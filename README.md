@@ -1,4 +1,5 @@
 <p align=center><a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=500&size=24&duration=4000&pause=1000&color=F78911&width=435&lines=Discord-Select-Menu-Ticket-Bot" alt="Typing SVG" /></a></p>
+<p align=center><a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=24&duration=4000&pause=1000&color=F70000&width=435&lines=THIS+BOT+IS+WRITTEN+IN+PY-CORD" alt="Typing SVG" /></a></p>
 
 <p align=center>
 <a href="https://github.com/Simoneeeeeeee/Discord-Select-Menu-Ticket-Bot"><img src="https://img.shields.io/github/stars/Simoneeeeeeee/Discord-Select-Menu-Ticket-Bot?colorA=363a4f&colorB=b7bdf8&style=for-the-badge"></a>

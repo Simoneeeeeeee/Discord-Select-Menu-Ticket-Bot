@@ -8,17 +8,21 @@
 </p>
 
 ### This is a Simple Ticket-Bot with a Select Menu and its easy to Customize by using Py-Cord
+
 - ### Updates
-    - Added a Close button in the Ticket and removed the Close command.
-    - SelectMenu now resets the option after usage from a User so other users can use it too.
+  - Added a Close button in the Ticket and removed the Close command.
+  - SelectMenu now resets the option after usage from a User so other users can use it too.
 - ### Install all Required Modules
-    - ```pip install py-cord==2.4.0``` 
-    - ```pip install asyncio```
-    - ```pip install pytz```
+  - `pip install py-cord==2.4.0`
+  - `pip install asyncio`
+  - `pip install pytz`
+  - `pip install python-dotenv`
+
+    or you can use `pip install -r requirements.txt`
 - ### How to use Custom emojis from your Discors Server in the Select Menu
-    - ```Type in the Chat \ but do not send it, now Choose one Emoji that is one your server and press on it. Now it should look like that \<:emoji_name:emoji_id> now just remove the \ and paste the rest in your Code and here you go.```
+  - `Type in the Chat \ but do not send it, now Choose one Emoji that is one your server and press on it. Now it should look like that \<:emoji_name:emoji_id> now just remove the \ and paste the rest in your Code and here you go.`
 - ### Preview
     <p align=center><img src="/images/image1.png"><img src="/images/image2.png"><img src="/images/image3.png"><p>
 - ### Discord
-    - Add me for Questions 
-    - ```Simone#0782```
+  - Add me for Questions
+  - `Simone#0782`

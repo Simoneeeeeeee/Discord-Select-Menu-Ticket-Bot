@@ -6,23 +6,34 @@
 
 import discord
 import asyncio
+import json
 from discord.ui import *
 from discord.ext import commands
 from discord.ext.commands import has_permissions
 from pytz import timezone
+from dotenv import load_dotenv
+from os import getenv
 
-bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
+load_dotenv()
 
-GUILD_ID = 123 #Server ID
-TICKET_CHANNEL = 123 #Where the bot should send the Embed + SelectMenu
+with open("config.json", mode="r") as config_file:
+    config = json.load(config_file)
 
-CATEGORY_ID1 = 123 #Support1 Channel
-CATEGORY_ID2 = 123 #Support2 Channel
+BOT_TOKEN = getenv("DISCORD_BOT_TOKEN")
+BOT_PREFIX = config["prefix"]
 
-TEAM_ROLE1 = 123 #Permissions for Support1
-TEAM_ROLE2 = 123 #Permissions for Support2
+GUILD_ID = config["guild_id"] #Server ID
+TICKET_CHANNEL = config["ticket_channel_id"] #Where the bot should send the Embed + SelectMenu
 
-LOG_CHANNEL = 123 #Log Channel
+CATEGORY_ID1 = config["category_id_1"] #Support1 Channel
+CATEGORY_ID2 = config["category_id_2"] #Support2 Channel
+
+TEAM_ROLE1 = config["team_role_id_1"] #Permissions for Support1
+TEAM_ROLE2 = config["team_role_id_1"] #Permissions for Support2
+
+LOG_CHANNEL = config["log_channel_id"] #Log Channel
+
+bot = commands.Bot(command_prefix=BOT_PREFIX, intents=discord.Intents.all())
 
 @bot.event
 async def on_ready():
@@ -153,4 +164,4 @@ async def ticket(ctx):
     embed = discord.Embed(title="Support-Tickets", color=discord.colour.Color.blue())
     await channel.send(embed=embed, view=MyView())
 
-bot.run("Token")
+bot.run(BOT_TOKEN)

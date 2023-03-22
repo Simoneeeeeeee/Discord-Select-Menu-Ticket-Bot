@@ -150,6 +150,7 @@ class delete(discord.ui.View):
                 color=0xff0000)
         embed2 = discord.Embed(title="Ticket Closed!", description=f"Ticket-Name: {interaction.channel.name}\n Closed-From: {interaction.user.name}\n Transcript: ", color=discord.colour.Color.blue())
         file = discord.File(fileName)
+        interaction.response.defer()
         await channel.send(embed=embed2)
         await asyncio.sleep(1)
         await channel.send(file=file)

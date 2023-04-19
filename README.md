@@ -29,3 +29,4 @@
     <p align=center><img src="/images/image1.png"><img src="/images/image2.png"><img src="/images/image3.png"><p>
 - ### Discord
   - <a href="https://discord.gg/ycZDpat7dB">Join my DC Server for help and create an Ticket</a>
+  - https://discord.gg/ycZDpat7dB

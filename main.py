@@ -11,15 +11,11 @@ from discord.ui import *
 from discord.ext import commands
 from discord.ext.commands import has_permissions
 from pytz import timezone
-from dotenv import load_dotenv
-from os import getenv
-
-load_dotenv()
 
 with open("config.json", mode="r") as config_file:
     config = json.load(config_file)
 
-BOT_TOKEN = getenv("DISCORD_BOT_TOKEN")
+BOT_TOKEN = config["token"]
 BOT_PREFIX = config["prefix"]
 
 GUILD_ID = config["guild_id"] #Server ID

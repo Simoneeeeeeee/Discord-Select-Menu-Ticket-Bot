@@ -19,7 +19,6 @@
   - `pip install py-cord==2.4.0`
   - `pip install asyncio`
   - `pip install pytz`
-  - `pip install python-dotenv`
 
     or you can use `pip install -r requirements.txt`
 - ### How to use Custom emojis from your Discors Server in the Select Menu

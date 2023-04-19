@@ -28,5 +28,4 @@
 - ### Preview
     <p align=center><img src="/images/image1.png"><img src="/images/image2.png"><img src="/images/image3.png"><p>
 - ### Discord
-  - Add me for Questions
-  - `Simone#0782`
+  - <a href="https://discord.gg/ycZDpat7dB">Join my DC Server for help and create an Ticket</a>

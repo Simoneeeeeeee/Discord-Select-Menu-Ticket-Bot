@@ -133,6 +133,7 @@ class delete(discord.ui.View):
 
     @discord.ui.button(label="Close Ticket 🎫", style = discord.ButtonStyle.red, custom_id="close")
     async def close(self, button: discord.ui.Button, interaction: discord.Interaction):
+        await interaction.response.defer()
         channel = bot.get_channel(LOG_CHANNEL)
 
         fileName = f"{interaction.channel.name}.txt"
@@ -146,11 +147,10 @@ class delete(discord.ui.View):
                 color=0xff0000)
         embed2 = discord.Embed(title="Ticket Closed!", description=f"Ticket-Name: {interaction.channel.name}\n Closed-From: {interaction.user.name}\n Transcript: ", color=discord.colour.Color.blue())
         file = discord.File(fileName)
-        interaction.response.defer()
         await channel.send(embed=embed2)
         await asyncio.sleep(1)
         await channel.send(file=file)
-        await interaction.response.send_message(embed=embed)
+        await interaction.followup.send(embed=embed)
         await asyncio.sleep(5)
         await interaction.channel.delete(reason="Ticket closed by user")
 

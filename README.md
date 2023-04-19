@@ -3,7 +3,8 @@
 
 <p align=center>
 <a href="https://github.com/Simoneeeeeeee/Discord-Select-Menu-Ticket-Bot"><img src="https://img.shields.io/github/stars/Simoneeeeeeee/Discord-Select-Menu-Ticket-Bot?colorA=363a4f&colorB=b7bdf8&style=for-the-badge"></a>
-<a href="https://discord.gg/ycZDpat7dB" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/discord.svg" alt="ycZDpat7dB" height="30" width="40" /></a>
+<a href="https://discord.gg/ycZDpat7dB" target="blank">
+<img src="https://img.shields.io/discord/543723335616430101?label=Join%20Community&logo=discord&style=flat-square" alt="Join Discord Server"/></a>
 <a href="https://github.com/Simoneeeeeeee/Discord-Select-Menu-Ticket-Bot/archive/refs/heads/main.zip"><img src="https://custom-icon-badges.demolab.com/badge/-Download-F25278?style=for-the-badge&logo=download&logoColor=white"><a>
 </p>
 

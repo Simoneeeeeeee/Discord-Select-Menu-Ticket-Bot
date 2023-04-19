@@ -10,7 +10,7 @@
 ### This is a Simple Ticket-Bot with a Select Menu and its easy to Customize by using Py-Cord
 
 - ### Updates
-  #1.4
+  # 1.4
   - Added Config file for easier Usage.
   # 1.3
   - Added a Close button in the Ticket and removed the Close command.

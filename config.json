@@ -1,4 +1,5 @@
 {
+  "token": "token",
   "prefix": "!",
   "guild_id": 123,
   "ticket_channel_id": 123,

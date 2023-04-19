@@ -12,6 +12,7 @@
 
 - ### Updates
   # 1.4
+  - Fixed Bugs
   - Added Config file for easier Usage.
   # 1.3
   - Added a Close button in the Ticket and removed the Close command.

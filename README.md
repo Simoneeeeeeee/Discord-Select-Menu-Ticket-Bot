@@ -3,7 +3,7 @@
 
 <p align=center>
 <a href="https://github.com/Simoneeeeeeee/Discord-Select-Menu-Ticket-Bot"><img src="https://img.shields.io/github/stars/Simoneeeeeeee/Discord-Select-Menu-Ticket-Bot?colorA=363a4f&colorB=b7bdf8&style=for-the-badge"></a>
-<a href="https://discord.gg/ycZDpat7dB">Discord</a>
+[![Discord](https://img.shields.io/discord/837692625737613362.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/ycZDpat7dB)
 <a href="https://github.com/Simoneeeeeeee/Discord-Select-Menu-Ticket-Bot/archive/refs/heads/main.zip"><img src="https://custom-icon-badges.demolab.com/badge/-Download-F25278?style=for-the-badge&logo=download&logoColor=white"><a>
 </p>
 

@@ -30,3 +30,5 @@
 - ### Discord
   - <a href="https://discord.gg/ycZDpat7dB">Join my DC Server for help and create an Ticket</a>
   - https://discord.gg/ycZDpat7dB
+  
+<p align="center">Apache License 2.0 | Do not sell this Code</p>

@@ -7,7 +7,7 @@
 <img src="https://img.shields.io/discord/1096820059940331530?label=Join%20Community&logo=discord&style=flat-square" alt="Join Discord Server"/></a>
 </p>
 <p align=center><a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=24&duration=4000&pause=1000&color=F70000&width=435&lines=THIS+BOT+IS+WRITTEN+IN+PY-CORD" alt="Typing SVG" /></a></p>
-### This is a Simple Ticket-Bot with a Select Menu and its easy to Customize by using Py-Cord
+- ### This is a Simple Ticket-Bot with a Select Menu and its easy to Customize by using Py-Cord
 
 - ### Updates
   # 1.4

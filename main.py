@@ -136,7 +136,7 @@ class delete(discord.ui.View):
         channel = bot.get_channel(LOG_CHANNEL)
 
         fileName = f"{interaction.channel.name}.txt"
-        with open(fileName, "w") as file:
+        with open(fileName, "w", encoding='utf-8') as file:
             async for msg in interaction.channel.history(limit=None, oldest_first=True):
                 time = msg.created_at.replace(tzinfo=timezone('UTC')).astimezone(timezone('Europe/Berlin'))
                 file.write(f"{time} - {msg.author.display_name}: {msg.clean_content}\n")

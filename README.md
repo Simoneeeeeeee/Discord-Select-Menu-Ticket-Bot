@@ -8,22 +8,17 @@
 </p>
 <p align=center><a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=24&duration=4000&pause=1000&color=F70000&width=435&lines=THIS+BOT+IS+WRITTEN+IN+PY-CORD" alt="Typing SVG" /></a></p>
 <p align=center>This is a Simple Ticket-Bot with a Select Menu and its easy to Customize by using Py-Cord</p>
-- ### Commands
-  - `ticket`
-  - `add @User or ID`
-  - `remove @User or ID`.
+
+- ### All Commands
+  - `<prefix>ticket`
+  - `<prefix>add @User or ID`
+  - `<prefix>remove @User or ID`.
 - ### Updates
   # 1.5
   - Added Close Command
-  - Added Add Member
-  - Added remove Membber
+  - Added Add Member Command
+  - Added remove Member Command
   - Customize your Timezone now in the Config use https://gist.github.com/heyalexej/8bf688fd67d7199be4a1682b3eec7568 to find the Correct Names.
-  # 1.4
-  - Fixed Bugs
-  - Added Config file for easier Usage.
-  # 1.3
-  - Added a Close button in the Ticket and removed the Close command.
-  - SelectMenu now resets the option after usage from a User so other users can use it too.
 - ### Install all Required Modules
   - `pip install py-cord==2.4.0`
   - `pip install asyncio`

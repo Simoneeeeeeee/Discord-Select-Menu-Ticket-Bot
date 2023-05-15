@@ -11,6 +11,7 @@
 
 - ### All Commands
   - `<prefix>ticket`
+  - `<prefix>close`
   - `<prefix>add @User or ID`
   - `<prefix>remove @User or ID`.
 - ### Updates

@@ -10,6 +10,11 @@
 <p align=center>This is a Simple Ticket-Bot with a Select Menu and its easy to Customize by using Py-Cord</p>
 
 - ### Updates
+  # 1.5
+  - Added Close Command
+  - Added Add Member
+  - Added remove Membber
+  - Customize your Timezone now in the Config use https://gist.github.com/heyalexej/8bf688fd67d7199be4a1682b3eec7568 to find the Correct Names.
   # 1.4
   - Fixed Bugs
   - Added Config file for easier Usage.

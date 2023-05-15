@@ -11,7 +11,7 @@
 - ### Commands
   - `ticket`
   - `add @User or ID`
-  - `remove @User or ID`
+  - `remove @User or ID`.
 - ### Updates
   # 1.5
   - Added Close Command

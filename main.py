@@ -1,6 +1,6 @@
 #Version: 1.5
 #GitHub: https://github.com/Simoneeeeeeee/Discord-Select-Menu-Ticket-Bot
-#Discord: discord.gg/ycZDpat7dB
+#Discord: https://discord.gg/simone
 
 import discord
 import asyncio

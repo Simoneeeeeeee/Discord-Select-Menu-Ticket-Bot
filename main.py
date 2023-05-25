@@ -24,7 +24,7 @@ CATEGORY_ID1 = config["category_id_1"] #Support1 Channel
 CATEGORY_ID2 = config["category_id_2"] #Support2 Channel
 
 TEAM_ROLE1 = config["team_role_id_1"] #Permissions for Support1
-TEAM_ROLE2 = config["team_role_id_1"] #Permissions for Support2
+TEAM_ROLE2 = config["team_role_id_2"] #Permissions for Support2
 
 LOG_CHANNEL = config["log_channel_id"] #Log Channel
 

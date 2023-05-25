@@ -1,5 +1,3 @@
-<p align=center><img src="/images/banner.png"></p> 
-
 <p align=center>
 <a href="https://github.com/Simoneeeeeeee/Discord-Select-Menu-Ticket-Bot"><img src="https://img.shields.io/github/stars/Simoneeeeeeee/Discord-Select-Menu-Ticket-Bot?colorA=363a4f&colorB=b7bdf8&style=for-the-badge"></a>
 <a href="https://github.com/Simoneeeeeeee/Discord-Select-Menu-Ticket-Bot/archive/refs/heads/main.zip"><img src="https://custom-icon-badges.demolab.com/badge/-Download-F25278?style=for-the-badge&logo=download&logoColor=white"><a>

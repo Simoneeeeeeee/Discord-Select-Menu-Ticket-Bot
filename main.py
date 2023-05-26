@@ -24,7 +24,7 @@ CATEGORY_ID1 = config["category_id_1"] #Support1 Category ID
 CATEGORY_ID2 = config["category_id_2"] #Support2 Category ID
 
 TEAM_ROLE1 = config["team_role_id_1"] #Permissions for Support1
-TEAM_ROLE2 = config["team_role_id_1"] #Permissions for Support2
+TEAM_ROLE2 = config["team_role_id_2"] #Permissions for Support2
 
 LOG_CHANNEL = config["log_channel_id"] #Log Channel ID
 TIMEZONE = config["timezone"] #Timezone for the Log you find all timezones at https://gist.github.com/heyalexej/8bf688fd67d7199be4a1682b3eec7568

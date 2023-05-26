@@ -8,16 +8,15 @@
 <p align=center>This is a Simple Ticket-Bot with a Select Menu and its easy to Customize by using Py-Cord</p>
 
 - ### All Commands
-  - `<prefix>ticket`
-  - `<prefix>close`
-  - `<prefix>add @User or ID`
-  - `<prefix>remove @User or ID`.
+  - `/ticket`
+  - `/delete`
+  - `/add`
+  - `/remove`.
 - ### Updates
-  # 1.5
-  - Added Close Command
-  - Added Add Member Command
-  - Added remove Member Command
-  - Customize your Timezone now in the Config use https://gist.github.com/heyalexej/8bf688fd67d7199be4a1682b3eec7568 to find the Correct Names.
+  # 1.6
+  - Changed Commands to Slash Commands
+  - You can now reopen Tickets
+  - Counts all open Tickets in the Status
 - ### Install all Required Modules
   - `pip install py-cord==2.4.0`
   - `pip install asyncio`

@@ -214,7 +214,7 @@ async def ticket(ctx):
 
 #Slash Command to delete the Ticket
 @bot.slash_command(name="delete", description="Delete a Ticket instantly!")
-async def delete(ctx):
+async def delete_ticket_channel(ctx):
     if "ticket-" in ctx.channel.name or "closed-" in ctx.channel.name:
         channel = bot.get_channel(LOG_CHANNEL)
 

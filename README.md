@@ -40,7 +40,8 @@
 
     pip install chat-exporter
 
-    or you can use ```sh pip install -r requirements.txt ``` 
+    or you can use pip install -r requirements.txt
+``` 
 - ### How to use Custom emojis from your Discors Server in the Select Menu
   - `Type in the Chat \ but do not send it, now Choose one Emoji that is one your server and press on it. Now it should look like that \<:emoji_name:emoji_id> now just remove the \ and paste the rest in your Code and here you go.`
 - ### Preview

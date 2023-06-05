@@ -10,7 +10,7 @@
 - ### All Commands
   - `/ticket`
   - `/add`
-  - `/remove`.
+  - `/remove`
 - ### Where to put what in the config.json
   - DO NOT COPY THIS!!
     ```sh

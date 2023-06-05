@@ -12,6 +12,7 @@
   - `/add`
   - `/remove`.
 - ### Where to put what in the config.json
+  - DO NOT COPY THIS!!
     ```sh
         {
       "token": "",                 <- Your Bot Token from https://discord.dev
@@ -38,7 +39,6 @@
     pip install asyncio
 
     pip install chat-exporter
-```
 
     or you can use ```sh pip install -r requirements.txt ``` 
 - ### How to use Custom emojis from your Discors Server in the Select Menu

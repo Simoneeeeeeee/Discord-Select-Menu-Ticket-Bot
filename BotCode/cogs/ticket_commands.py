@@ -26,7 +26,7 @@ class Ticket_Command(commands.Cog):
     async def ticket(self, ctx):
         self.channel = self.bot.get_channel(TICKET_CHANNEL)
         self.embed = discord.Embed(title="Support-Tickets", color=discord.colour.Color.blue())
-        await self.channel.send(embed=self.embed, view=MyView())
+        await self.channel.send(embed=self.embed, view=MyView(bot=self.bot))
         await ctx.respond("Ticket Menu was send!", ephemeral=True)
 
     #Slash Command to add Members to the Ticket

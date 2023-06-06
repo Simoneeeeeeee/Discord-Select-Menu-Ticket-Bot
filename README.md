@@ -48,6 +48,7 @@
     <p align=center><img src="/images/image1.png"><img src="/images/image2.png"><img src="/images/image3.png"><p>
 - ### Discord
   - <a href="https://discord.gg/ycZDpat7dB">Join my DC Server for help and create an Ticket</a>
+  - <a>If you want to Support me give this Project a Star </a>
   - https://discord.gg/ycZDpat7dB
   
 <p align="center">Apache License 2.0</p>

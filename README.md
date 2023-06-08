@@ -9,26 +9,6 @@
 
 - ### Previews
     <a align=left href='https://imgur.com/a/Z3wAn4c' target="_blank">Imgur Website</a>
-- ### All Commands
-  - `/ticket`
-  - `/delete`
-  - `/add`
-  - `/remove`
-- ### How to set up config.json
-  - DO NOT COPY THIS!!
-    ```sh
-        {
-      "token": "",                 <- Your Bot Token from https://discord.dev
-      "guild_id": 123,             <- Your Server ID aka Guild ID  
-      "ticket_channel_id": 123,    <- Ticket Channel where the Bot should send the SelectMenu + Embed
-      "category_id_1": 123,        <- Category 1 where the Bot should open the Ticket for the Ticket option 1
-      "category_id_2": 123,        <- Category 2 where the Bot should open the Ticket for the Ticket option 2
-      "team_role_id_1": 123,       <- Staff Team role id
-      "team_role_id_2": 123,       <- Staff Team role id
-      "log_channel_id": 123,       <- Where the Bot should log everything 
-      "timezone": "CET"            <- Timezone use https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List  use the Category 'Time zone abbreviation' to get no error
-    }
-    ```
 - ### Update v.17
   - It's now a Cog
   - HTML Transcipt
@@ -44,6 +24,28 @@
 
     or you can use pip install -r requirements.txt
 ``` 
+- ### How to set up config.json
+  - DO NOT COPY THIS!!
+    ```sh
+        {
+      "token": "",                 <- Your Bot Token from https://discord.dev
+      "guild_id": 123,             <- Your Server ID aka Guild ID  
+      "ticket_channel_id": 123,    <- Ticket Channel where the Bot should send the SelectMenu + Embed
+      "category_id_1": 123,        <- Category 1 where the Bot should open the Ticket for the Ticket option 1
+      "category_id_2": 123,        <- Category 2 where the Bot should open the Ticket for the Ticket option 2
+      "team_role_id_1": 123,       <- Staff Team role id
+      "team_role_id_2": 123,       <- Staff Team role id
+      "log_channel_id": 123,       <- Where the Bot should log everything 
+      "timezone": "CET"            <- Timezone use https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List  use the Category 'Time zone abbreviation' to get no error
+    }
+    ```
+- ### All Commands
+  - `/ticket`
+  - `/delete`
+  - `/add`
+  - `/remove`
+- ### Install all Required Modules
+
 - ### How to use Custom emojis from your Discors Server in the Select Menu
   - `Type in the Chat \ but do not send it, now Choose one Emoji that is one your server and press on it. Now it should look like that \<:emoji_name:emoji_id> now just remove the \ and paste the rest in your Code and here you go.`
 - ### Discord

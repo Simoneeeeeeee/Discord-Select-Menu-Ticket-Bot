@@ -29,8 +29,7 @@
       "timezone": "CET"            <- Timezone use https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List  use the Category 'Time zone abbreviation' to get no error
     }
     ```
-- ### Updates
-  # 1.7
+- ### Update v.17
   - It's now a Cog
   - HTML Transcipt
   - SQLITE Database that saves current opened Tickets

@@ -14,16 +14,15 @@
   - HTML Transcipt
   - SQLITE Database that saves current opened Tickets
 - ### Install all Required Modules
+  - ```sh
+        pip install py-cord==2.4.0
 
-```sh
-    pip install py-cord==2.4.0
+        pip install asyncio
 
-    pip install asyncio
+        pip install chat-exporter
 
-    pip install chat-exporter
-
-    or you can use pip install -r requirements.txt
-``` 
+        or you can use pip install -r requirements.txt
+    ``` 
 - ### How to set up config.json
   - DO NOT COPY THIS!!
     ```sh

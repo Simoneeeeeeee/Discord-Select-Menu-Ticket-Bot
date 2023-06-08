@@ -8,7 +8,7 @@
 <p align=center>This is a Simple Ticket-Bot with a Select Menu and its easy to Customize by using Py-Cord</p>
 
 - ### Previews
-    <a align=left href="https://imgur.com/a/Z3wAn4c" target="_blank">Imgur Website</a>
+    <a align=left href='https://imgur.com/a/Z3wAn4c' target="_blank">Imgur Website</a>
 - ### All Commands
   - `/ticket`
   - `/delete`

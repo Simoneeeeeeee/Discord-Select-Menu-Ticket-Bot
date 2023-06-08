@@ -11,7 +11,7 @@
     <a align=left href='https://imgur.com/a/Z3wAn4c' target="_blank">Imgur Website</a>
 - ### Update v.17
   - It's now a Cog
-  - HTML Transcipt
+  - HTML Transcript
   - SQLITE Database that saves current opened Tickets
 - ### Install all Required Modules
   ```sh

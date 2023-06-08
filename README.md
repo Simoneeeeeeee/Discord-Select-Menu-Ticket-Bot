@@ -14,7 +14,7 @@
   - HTML Transcipt
   - SQLITE Database that saves current opened Tickets
 - ### Install all Required Modules
-  - ```sh
+  ```sh
         pip install py-cord==2.4.0
 
         pip install asyncio
@@ -24,7 +24,6 @@
         or you can use pip install -r requirements.txt
     ``` 
 - ### How to set up config.json
-  - DO NOT COPY THIS!!
     ```sh
         {
       "token": "",                 <- Your Bot Token from https://discord.dev

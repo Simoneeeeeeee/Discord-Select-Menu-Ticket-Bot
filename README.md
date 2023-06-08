@@ -14,7 +14,7 @@
   - `/delete`
   - `/add`
   - `/remove`
-- ### Where to put what in the config.json
+- ### How to set up config.json
   - DO NOT COPY THIS!!
     ```sh
         {

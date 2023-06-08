@@ -7,6 +7,8 @@
 <p align=center><a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=24&duration=4000&pause=1000&color=F70000&width=435&lines=THIS+BOT+IS+WRITTEN+IN+PY-CORD" alt="Typing SVG" /></a></p>
 <p align=center>This is a Simple Ticket-Bot with a Select Menu and its easy to Customize by using Py-Cord</p>
 
+- ### Preview
+    <p align=center><img src="/images/image1.png"><img src="/images/image2.png"><img src="/images/image3.png"><p>
 - ### All Commands
   - `/ticket`
   - `/delete`
@@ -45,8 +47,6 @@
 ``` 
 - ### How to use Custom emojis from your Discors Server in the Select Menu
   - `Type in the Chat \ but do not send it, now Choose one Emoji that is one your server and press on it. Now it should look like that \<:emoji_name:emoji_id> now just remove the \ and paste the rest in your Code and here you go.`
-- ### Preview
-    <p align=center><img src="/images/image1.png"><img src="/images/image2.png"><img src="/images/image3.png"><p>
 - ### Discord
   - <a href="https://discord.gg/ycZDpat7dB">Join my DC Server for help and create an Ticket</a>
   - <a>If you want to Support me give this Project a Star </a>

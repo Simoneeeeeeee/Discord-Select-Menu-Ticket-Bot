@@ -9,6 +9,7 @@
 
 - ### All Commands
   - `/ticket`
+  - `/close`
   - `/add`
   - `/remove`
 - ### Where to put what in the config.json

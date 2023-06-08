@@ -236,7 +236,10 @@ class TicketOptions(discord.ui.View):
         transcript_info = discord.Embed(title=f"Ticket Deleting | {interaction.channel.name}", description=f"Ticket from: {ticket_creator.mention}\nTicket Name: {interaction.channel.name}\n Ticket Created at: <t:{discord_timestamp}:F> \n Closed from: {interaction.user.mention}", color=discord.colour.Color.blue())
 
         await interaction.response.send_message(embed=embed)
-        await ticket_creator.send(embed=transcript_info, file=transcript_file)
+        try:
+            await ticket_creator.send(embed=transcript_info, file=transcript_file)
+        except:
+            transcript_info.add_field(name="Error", value="Couldn't send the Transcript to the User because he has his DMs disabled!", inline=True)
         await channel.send(embed=transcript_info, file=transcript_file2)
         await asyncio.sleep(3)
         await interaction.channel.delete(reason="Ticket got Deleted!")

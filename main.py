@@ -9,13 +9,14 @@ from discord.ext import commands, tasks
 from cogs.ticket_system import Ticket_System
 from cogs.ticket_commands import Ticket_Command
 
+#This will get everything from the config.json file
 with open("config.json", mode="r") as config_file:
     config = json.load(config_file)
 
-BOT_TOKEN = config["token"]  #Bot Token create bot on discord.dev
-GUILD_ID = config["guild_id"] #Server ID
-CATEGORY_ID1 = config["category_id_1"] #Category ID 1
-CATEGORY_ID2 = config["category_id_2"] #Category ID 2
+BOT_TOKEN = config["token"]  #Your Bot Token from https://discord.dev
+GUILD_ID = config["guild_id"] #Your Server ID aka Guild ID  
+CATEGORY_ID1 = config["category_id_1"] #Category 1 where the Bot should open the Ticket for the Ticket option 1
+CATEGORY_ID2 = config["category_id_2"] #Category 2 where the Bot should open the Ticket for the Ticket option 2
 
 bot = commands.Bot(intents=discord.Intents.all())
 
@@ -29,7 +30,7 @@ async def on_ready():
 async def richpresence():
     guild = bot.get_guild(GUILD_ID)
     category1 = discord.utils.get(guild.categories, id=int(CATEGORY_ID1))
-    category2 = discord.utils.get(guild.categories, id=int(CATEGORY_ID2))
+    category2 = discord.utils.get(guild.categories, id=int(CATEGORY_ID2)) #You need to add/change things if you have more or less than 2 Categories
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f'Tickets | {len(category1.channels) + len(category2.channels)}'))
 
 bot.add_cog(Ticket_System(bot))

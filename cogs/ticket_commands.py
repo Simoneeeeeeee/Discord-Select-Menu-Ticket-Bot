@@ -9,18 +9,21 @@ from discord.ext import commands
 from discord.ext.commands import has_permissions
 from cogs.ticket_system import MyView
 
+#This will get everything from the config.json file
 with open("config.json", mode="r") as config_file:
     config = json.load(config_file)
 
-TICKET_CHANNEL = config["ticket_channel_id"] #Where the bot should send the Embed + SelectMenu
-GUILD_ID = config["guild_id"] #Server ID
+TICKET_CHANNEL = config["ticket_channel_id"] #Ticket Channel where the Bot should send the SelectMenu + Embed
+GUILD_ID = config["guild_id"] #Your Server ID aka Guild ID  
 
-LOG_CHANNEL = config["log_channel_id"] #Log Channel ID
-TIMEZONE = config["timezone"] #Timezone for the Timestamp https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List
+LOG_CHANNEL = config["log_channel_id"] #Where the Bot should log everything 
+TIMEZONE = config["timezone"] #Timezone use https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List and use the Category 'Time zone abbreviation' for example: Europe = CET, America = EST so you put in EST or EST ...
 
+#This will create and connect to the database
 conn = sqlite3.connect('user.db')
 cur = conn.cursor()
 
+#Create the table if it doesn't exist
 cur.execute("""CREATE TABLE IF NOT EXISTS ticket 
            (id INTEGER PRIMARY KEY AUTOINCREMENT, discord_name TEXT, discord_id INTEGER, ticket_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP)""")
 conn.commit()
@@ -40,7 +43,7 @@ class Ticket_Command(commands.Cog):
         conn.close()
 
 
-        #Slash Command to show the Ticket Menu in the Ticket Channel
+    #Slash Command to show the Ticket Menu in the Ticket Channel only needs to be used once
     @commands.slash_command(name="ticket")
     @has_permissions(administrator=True)
     async def ticket(self, ctx):
@@ -52,7 +55,7 @@ class Ticket_Command(commands.Cog):
     #Slash Command to add Members to the Ticket
     @commands.slash_command(name="add", description="Add a Member from the Ticket")
     async def add(self, ctx, member: Option(discord.Member, description="Which Member you want to add from the Ticket", required = True)):
-        if "ticket-" in ctx.channel.name or "closed-" in ctx.channel.name:
+        if "ticket-" in ctx.channel.name or "ticket-closed-" in ctx.channel.name:
             await ctx.channel.set_permissions(member, send_messages=True, read_messages=True, add_reactions=False,
                                                 embed_links=True, attach_files=True, read_message_history=True,
                                                 external_emojis=True)
@@ -65,7 +68,7 @@ class Ticket_Command(commands.Cog):
     #Slash Command to remove Members from the Ticket
     @commands.slash_command(name="remove", description="Remove a Member from the Ticket")
     async def remove(self, ctx, member: Option(discord.Member, description="Which Member you want to remove from the Ticket", required = True)):
-        if "ticket-" in ctx.channel.name or "closed-" in ctx.channel.name:
+        if "ticket-" in ctx.channel.name or "ticket-closed-" in ctx.channel.name:
             await ctx.channel.set_permissions(member, send_messages=False, read_messages=False, add_reactions=False,
                                                 embed_links=False, attach_files=False, read_message_history=False,
                                                 external_emojis=False)
@@ -76,18 +79,19 @@ class Ticket_Command(commands.Cog):
             await ctx.respond(embed=self.embed)
 
     @commands.slash_command(name="delete", description="Delete the Ticket")
-    async def close(self, ctx):
+    async def delete_ticket(self, ctx):
         guild = self.bot.get_guild(GUILD_ID)
         channel = self.bot.get_channel(LOG_CHANNEL)
         ticket_creator = int(ctx.channel.topic)
 
-        cur.execute("SELECT ticket_created FROM ticket WHERE discord_id=?", (ticket_creator,))
+        cur.execute("SELECT ticket_created FROM ticket WHERE discord_id=?", (ticket_creator,)) #Get the Ticket Created Time
         ticket_created = cur.fetchone()
-        discord_timestamp = convert_time_to_timestamp(ticket_created)
+        discord_timestamp = convert_time_to_timestamp(ticket_created) #Convert the Time to a Timestamp
 
-        cur.execute("DELETE FROM ticket WHERE discord_id=?", (ticket_creator,))
+        cur.execute("DELETE FROM ticket WHERE discord_id=?", (ticket_creator,)) #Delete the Ticket from the Database
         conn.commit()
 
+        #Create Transcript
         military_time: bool = True
         transcript = await chat_exporter.export(
             ctx.channel,
@@ -111,6 +115,7 @@ class Ticket_Command(commands.Cog):
         transcript_info = discord.Embed(title=f"Ticket Deleting | {ctx.channel.name}", description=f"Ticket from: {ticket_creator.mention}\nTicket Name: {ctx.channel.name}\n Ticket Created at: <t:{discord_timestamp}:F> \n Closed from: {ctx.author.mention}", color=discord.colour.Color.blue())
 
         await ctx.reply(embed=embed)
+        #Checks if the user has his DMs enabled/disabled
         try:
             await ticket_creator.send(embed=transcript_info, file=transcript_file)
         except:
@@ -119,6 +124,7 @@ class Ticket_Command(commands.Cog):
         await asyncio.sleep(3)
         await ctx.channel.delete(reason="Ticket got Deleted!")
 
+#Converts the Time to a Timestamp
 def convert_time_to_timestamp(timestamp):
     timestamp_str = timestamp[0]
 

@@ -5,7 +5,7 @@
 <a href="https://discord.gg/simone" target="blank">
 <img src="https://img.shields.io/discord/1096820059940331530?label=Join%20Community&logo=discord&style=flat-square" alt="Join Discord Server"/></a>
 </p>
-<p align=center>This is a Simple Ticket-Bot with a Select Menu and its easy to Customize by using Py-Cord</p>
+<p align=center>This is a Simple Ticket Bot with a Select Menu and its easy to Customize</p>
 
 - ### Previews
     <a align=left href='https://imgur.com/a/Z3wAn4c' target="_blank">Imgur Website</a>

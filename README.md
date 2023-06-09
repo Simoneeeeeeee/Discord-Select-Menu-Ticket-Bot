@@ -13,6 +13,7 @@
   - Made eveything now in a Cog
   - HTML Transcript
   - SQLITE Database that saves current opened Tickets
+  - Fixed some Errors
 - ### Install all Required Modules
   ```sh
         pip install py-cord==2.4.0

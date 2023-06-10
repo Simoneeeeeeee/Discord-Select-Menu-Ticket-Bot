@@ -53,8 +53,8 @@ class Ticket_Command(commands.Cog):
         await ctx.respond("Ticket Menu was send!", ephemeral=True)
 
     #Slash Command to add Members to the Ticket
-    @commands.slash_command(name="add", description="Add a Member from the Ticket")
-    async def add(self, ctx, member: Option(discord.Member, description="Which Member you want to add from the Ticket", required = True)):
+    @commands.slash_command(name="add", description="Add a Member to the Ticket")
+    async def add(self, ctx, member: Option(discord.Member, description="Which Member you want to add to the Ticket", required = True)):
         if "ticket-" in ctx.channel.name or "ticket-closed-" in ctx.channel.name:
             await ctx.channel.set_permissions(member, send_messages=True, read_messages=True, add_reactions=False,
                                                 embed_links=True, attach_files=True, read_message_history=True,

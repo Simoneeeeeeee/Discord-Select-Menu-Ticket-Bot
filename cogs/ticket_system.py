@@ -214,10 +214,6 @@ class TicketOptions(discord.ui.View):
         channel = self.bot.get_channel(LOG_CHANNEL)
         ticket_creator = int(interaction.channel.topic)
 
-        cur.execute("SELECT ticket_created FROM ticket WHERE discord_id=?", (ticket_creator,)) #Get the Ticket Created Time from the Database
-        ticket_created = cur.fetchone()
-        discord_timestamp = convert_time_to_timestamp(ticket_created) #Convert the Time to a Timestamp
-
         cur.execute("DELETE FROM ticket WHERE discord_id=?", (ticket_creator,)) #Delete the Ticket from the Database
         conn.commit()
 
@@ -242,7 +238,7 @@ class TicketOptions(discord.ui.View):
         
         ticket_creator = guild.get_member(ticket_creator)
         embed = discord.Embed(description=f'Ticket is deliting in 5 seconds.', color=0xff0000)
-        transcript_info = discord.Embed(title=f"Ticket Deleting | {interaction.channel.name}", description=f"Ticket from: {ticket_creator.mention}\nTicket Name: {interaction.channel.name}\n Ticket Created at: <t:{discord_timestamp}:F> \n Closed from: {interaction.user.mention}", color=discord.colour.Color.blue())
+        transcript_info = discord.Embed(title=f"Ticket Deleting | {interaction.channel.name}", description=f"Ticket from: {ticket_creator.mention}\nTicket Name: {interaction.channel.name} \n Closed from: {interaction.user.mention}", color=discord.colour.Color.blue())
 
         await interaction.response.send_message(embed=embed)
         #checks if user has dms disabled

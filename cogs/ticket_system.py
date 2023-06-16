@@ -179,14 +179,6 @@ class CloseButton(discord.ui.View):
         button.disabled = True
         await interaction.message.edit(view=self)
 
-#Converts the Time to a Timestamp
-def convert_time_to_timestamp(timestamp):
-    timestamp_str = timestamp[0]
-
-    datetime_obj = datetime.datetime.strptime(timestamp_str, "%Y-%m-%d %H:%M:%S")
-    discord_timestamp = int(datetime_obj.timestamp())
-    return discord_timestamp
-
 
 #Buttons to reopen or delete the Ticket
 class TicketOptions(discord.ui.View):

@@ -84,10 +84,6 @@ class Ticket_Command(commands.Cog):
         channel = self.bot.get_channel(LOG_CHANNEL)
         ticket_creator = int(ctx.channel.topic)
 
-        cur.execute("SELECT ticket_created FROM ticket WHERE discord_id=?", (ticket_creator,)) #Get the Ticket Created Time
-        ticket_created = cur.fetchone()
-        discord_timestamp = convert_time_to_timestamp(ticket_created) #Convert the Time to a Timestamp
-
         cur.execute("DELETE FROM ticket WHERE discord_id=?", (ticket_creator,)) #Delete the Ticket from the Database
         conn.commit()
 
@@ -112,7 +108,7 @@ class Ticket_Command(commands.Cog):
         
         ticket_creator = guild.get_member(ticket_creator)
         embed = discord.Embed(description=f'Ticket is deliting in 5 seconds.', color=0xff0000)
-        transcript_info = discord.Embed(title=f"Ticket Deleting | {ctx.channel.name}", description=f"Ticket from: {ticket_creator.mention}\nTicket Name: {ctx.channel.name}\n Ticket Created at: <t:{discord_timestamp}:F> \n Closed from: {ctx.author.mention}", color=discord.colour.Color.blue())
+        transcript_info = discord.Embed(title=f"Ticket Deleting | {ctx.channel.name}", description=f"Ticket from: {ticket_creator.mention}\nTicket Name: {ctx.channel.name} \n Closed from: {ctx.author.mention}", color=discord.colour.Color.blue())
 
         await ctx.reply(embed=embed)
         #Checks if the user has his DMs enabled/disabled
@@ -124,10 +120,3 @@ class Ticket_Command(commands.Cog):
         await asyncio.sleep(3)
         await ctx.channel.delete(reason="Ticket got Deleted!")
 
-#Converts the Time to a Timestamp
-def convert_time_to_timestamp(timestamp):
-    timestamp_str = timestamp[0]
-
-    datetime_obj = datetime.datetime.strptime(timestamp_str, "%Y-%m-%d %H:%M:%S")
-    discord_timestamp = int(datetime_obj.timestamp())
-    return discord_timestamp

@@ -9,11 +9,9 @@
 
 - ### Previews
     <a align=left href='https://imgur.com/a/Z3wAn4c' target="_blank">Imgur Website</a>
-- ### Update v.17
-  - Made eveything now in a Cog
-  - HTML Transcript
-  - SQLITE Database that saves current opened Tickets
-  - Fixed some Errors
+- ### Update v.1.8
+  - Fixed Bugs
+  - Works Better now
 - ### Install all Required Modules
   ```sh
         pip install py-cord==2.4.0

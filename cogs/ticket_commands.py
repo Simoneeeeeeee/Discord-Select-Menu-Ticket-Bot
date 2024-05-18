@@ -2,7 +2,8 @@ import discord
 import json
 import chat_exporter
 import io
-import datetime
+import pytz
+from datetime import datetime
 import sqlite3
 from discord import *
 from discord.ext import commands
@@ -13,20 +14,16 @@ from cogs.ticket_system import MyView
 with open("config.json", mode="r") as config_file:
     config = json.load(config_file)
 
-TICKET_CHANNEL = config["ticket_channel_id"] #Ticket Channel where the Bot should send the SelectMenu + Embed
-GUILD_ID = config["guild_id"] #Your Server ID aka Guild ID  
-
-LOG_CHANNEL = config["log_channel_id"] #Where the Bot should log everything 
-TIMEZONE = config["timezone"] #Timezone use https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List and use the Category 'Time zone abbreviation' for example: Europe = CET, America = EST so you put in EST or EST ...
+TICKET_CHANNEL = config["ticket_channel_id"]
+GUILD_ID = config["guild_id"]
+LOG_CHANNEL = config["log_channel_id"]
+TIMEZONE = config["timezone"]
+EMBED_TITLE = config["embed_title"]
+EMBED_DESCRIPTION = config["embed_description"]
 
 #This will create and connect to the database
-conn = sqlite3.connect('user.db')
+conn = sqlite3.connect('Database.db')
 cur = conn.cursor()
-
-#Create the table if it doesn't exist
-cur.execute("""CREATE TABLE IF NOT EXISTS ticket 
-           (id INTEGER PRIMARY KEY AUTOINCREMENT, discord_name TEXT, discord_id INTEGER, ticket_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP)""")
-conn.commit()
 
 class Ticket_Command(commands.Cog):
 
@@ -35,20 +32,19 @@ class Ticket_Command(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        print(f'Bot Loaded | ticket_commands.py ✅')
+        print(f'Bot Loaded  | ticket_commands.py ✅')
 
     @commands.Cog.listener()
     async def on_bot_shutdown():
         cur.close()
         conn.close()
 
-
     #Slash Command to show the Ticket Menu in the Ticket Channel only needs to be used once
     @commands.slash_command(name="ticket")
     @has_permissions(administrator=True)
     async def ticket(self, ctx):
         self.channel = self.bot.get_channel(TICKET_CHANNEL)
-        embed = discord.Embed(title="Support-Tickets", color=discord.colour.Color.blue())
+        embed = discord.Embed(title=EMBED_TITLE, description=EMBED_DESCRIPTION, color=discord.colour.Color.blue())
         await self.channel.send(embed=embed, view=MyView(self.bot))
         await ctx.respond("Ticket Menu was send!", ephemeral=True)
 
@@ -80,43 +76,56 @@ class Ticket_Command(commands.Cog):
 
     @commands.slash_command(name="delete", description="Delete the Ticket")
     async def delete_ticket(self, ctx):
-        guild = self.bot.get_guild(GUILD_ID)
-        channel = self.bot.get_channel(LOG_CHANNEL)
-        ticket_creator = int(ctx.channel.topic)
+        if "ticket-" in ctx.channel.name:
+            guild = self.bot.get_guild(GUILD_ID)
+            channel = self.bot.get_channel(LOG_CHANNEL)
+            ticket_id = ctx.channel.id
 
-        cur.execute("DELETE FROM ticket WHERE discord_id=?", (ticket_creator,)) #Delete the Ticket from the Database
-        conn.commit()
+            cur.execute("SELECT id, discord_id, ticket_created FROM ticket WHERE ticket_channel=?", (ticket_id,))
+            ticket_data = cur.fetchone()
+            id, ticket_creator_id, ticket_created = ticket_data
+            ticket_created_unix = self.convert_to_unix_timestamp(ticket_created)
 
-        #Create Transcript
-        military_time: bool = True
-        transcript = await chat_exporter.export(
-            ctx.channel,
-            limit=200,
-            tz_info=TIMEZONE,
-            military_time=military_time,
-            bot=self.bot,
-        )       
-        if transcript is None:
-            return
-        
-        transcript_file = discord.File(
-            io.BytesIO(transcript.encode()),
-            filename=f"transcript-{ctx.channel.name}.html")
-        transcript_file2 = discord.File(
-            io.BytesIO(transcript.encode()),
-            filename=f"transcript-{ctx.channel.name}.html")
-        
-        ticket_creator = guild.get_member(ticket_creator)
-        embed = discord.Embed(description=f'Ticket is deliting in 5 seconds.', color=0xff0000)
-        transcript_info = discord.Embed(title=f"Ticket Deleting | {ctx.channel.name}", description=f"Ticket from: {ticket_creator.mention}\nTicket Name: {ctx.channel.name} \n Closed from: {ctx.author.mention}", color=discord.colour.Color.blue())
+            #Creating the Transcript
+            military_time: bool = True
+            transcript = await chat_exporter.export(
+                ctx.channel,
+                limit=200,
+                tz_info=TIMEZONE,
+                military_time=military_time,
+                bot=self.bot,
+            )       
+            if transcript is None:
+                return
+            
+            transcript_file = discord.File(
+                io.BytesIO(transcript.encode()),
+                filename=f"transcript-{ctx.channel.name}.html")
+            transcript_file2 = discord.File(
+                io.BytesIO(transcript.encode()),
+                filename=f"transcript-{ctx.channel.name}.html")
+            
+            ticket_creator = guild.get_member(ticket_creator_id)
+            embed = discord.Embed(description=f'Ticket is deleting in 5 seconds.', color=0xff0000)
+            transcript_info = discord.Embed(title=f"Ticket Deleting | {ctx.channel.name}", description=f"Ticket ID: {id}\nTicket Name: {ctx.channel.name} \nTicket from: {ticket_creator.mention}\nClosed from: {ctx.author.mention}\nTicket Created: <t:{ticket_created_unix}:f>", color=discord.colour.Color.blue())
 
-        await ctx.reply(embed=embed)
-        #Checks if the user has his DMs enabled/disabled
-        try:
-            await ticket_creator.send(embed=transcript_info, file=transcript_file)
-        except:
-            transcript_info.add_field(name="Error", value="Couldn't send the Transcript to the User because he has his DMs disabled!", inline=True)
-        await channel.send(embed=transcript_info, file=transcript_file2)
-        await asyncio.sleep(3)
-        await ctx.channel.delete(reason="Ticket got Deleted!")
+            await ctx.respond(embed=embed)
+            #checks if user has dms disabled
+            try:
+                await ticket_creator.send(embed=transcript_info, file=transcript_file)
+            except:
+                transcript_info.add_field(name="Error", value="Couldn't send the Transcript to the User because he has his DMs disabled!", inline=True)
+            await channel.send(embed=transcript_info, file=transcript_file2)
+            await asyncio.sleep(3)
+            await ctx.channel.delete(reason="Ticket got Deleted!")
+            cur.execute("DELETE FROM ticket WHERE discord_id=?", (ticket_creator_id,)) #Delete the Ticket from the Database
+            conn.commit()
+
+    def convert_to_unix_timestamp(self, date_string):
+        date_format = "%Y-%m-%d %H:%M:%S"
+        dt_obj = datetime.strptime(date_string, date_format)
+        berlin_tz = pytz.timezone('Europe/Berlin')
+        dt_obj = berlin_tz.localize(dt_obj)
+        dt_obj_utc = dt_obj.astimezone(pytz.utc)
+        return int(dt_obj_utc.timestamp())
 

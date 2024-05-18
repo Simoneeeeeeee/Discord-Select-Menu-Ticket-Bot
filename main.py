@@ -1,4 +1,4 @@
-#Version: 1.7
+#Version: 1.8
 #GitHub: https://github.com/Simoneeeeeeee/Discord-Select-Menu-Ticket-Bot
 #Discord: discord.gg/ycZDpat7dB
 
@@ -22,7 +22,7 @@ bot = commands.Bot(intents=discord.Intents.all())
 
 @bot.event
 async def on_ready():
-    print(f'Bot Logged | {bot.user.name}')
+    print(f'Bot Started | {bot.user.name}')
     richpresence.start()
 
 #Bot Status, Counting all opened Tickets in the Server. You need to add/change things if you have more or less than 2 Categories

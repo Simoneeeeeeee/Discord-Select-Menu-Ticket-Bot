@@ -1,3 +1,5 @@
 asyncio==3.4.3
 py-cord==2.4.0
 chat-exporter
+pytz
+datetime

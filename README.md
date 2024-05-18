@@ -20,6 +20,10 @@
 
         pip install asyncio
 
+        pip install pytz
+
+        pip install datetime
+
         pip install chat-exporter
 
         or you can use pip install -r requirements.txt
@@ -36,6 +40,8 @@
       "team_role_id_2": 123,       <- Staff Team role id
       "log_channel_id": 123,       <- Where the Bot should log everything 
       "timezone": "CET"            <- Timezone use https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List and use the Category 'Time zone abbreviation' for example: Europe = CET, America = EST so you put in EST or EST ...
+      "embed_title": "Support-Tickets",
+      "embed_description": "Here you can open a Support Ticket!"
     ```
 - ### All Commands
   - `/ticket`

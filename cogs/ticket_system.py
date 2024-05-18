@@ -1,8 +1,9 @@
 import discord
 import asyncio
+import pytz
 import json
 import sqlite3
-import datetime
+from datetime import datetime
 import chat_exporter
 import io
 from discord.ext import commands
@@ -11,25 +12,24 @@ from discord.ext import commands
 with open("config.json", mode="r") as config_file:
     config = json.load(config_file)
 
-GUILD_ID = config["guild_id"] #Your Server ID aka Guild ID 
-TICKET_CHANNEL = config["ticket_channel_id"] #Ticket Channel where the Bot should send the SelectMenu + Embed
-
-CATEGORY_ID1 = config["category_id_1"] #Category 1 where the Bot should open the Ticket for the Ticket option 1
-CATEGORY_ID2 = config["category_id_2"] #Category 2 where the Bot should open the Ticket for the Ticket option 2
-
-TEAM_ROLE1 = config["team_role_id_1"] #Staff Team role id
-TEAM_ROLE2 = config["team_role_id_2"] #Staff Team role id
-
-LOG_CHANNEL = config["log_channel_id"] #Where the Bot should log everything 
-TIMEZONE = config["timezone"] #Timezone use https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List and use the Category 'Time zone abbreviation' for example: Europe = CET, America = EST so you put in EST or EST ...
+GUILD_ID = config["guild_id"]
+TICKET_CHANNEL = config["ticket_channel_id"] 
+CATEGORY_ID1 = config["category_id_1"]
+CATEGORY_ID2 = config["category_id_2"] 
+TEAM_ROLE1 = config["team_role_id_1"] 
+TEAM_ROLE2 = config["team_role_id_2"]
+LOG_CHANNEL = config["log_channel_id"]
+TIMEZONE = config["timezone"]
+EMBED_TITLE = config["embed_title"]
+EMBED_DESCRIPTION = config["embed_description"]
 
 #This will create and connect to the database
-conn = sqlite3.connect('user.db')
+conn = sqlite3.connect('Database.db')
 cur = conn.cursor()
 
 #Create the table if it doesn't exist
 cur.execute("""CREATE TABLE IF NOT EXISTS ticket 
-           (id INTEGER PRIMARY KEY AUTOINCREMENT, discord_name TEXT, discord_id INTEGER, ticket_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP)""")
+           (id INTEGER PRIMARY KEY AUTOINCREMENT, discord_name TEXT, discord_id INTEGER, ticket_channel TEXT, ticket_created TIMESTAMP)""")
 conn.commit()
 
 class Ticket_System(commands.Cog):
@@ -39,7 +39,7 @@ class Ticket_System(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        print(f'Bot Loaded | ticket_system.py ✅')
+        print(f'Bot Loaded  | ticket_system.py ✅')
         self.bot.add_view(MyView(bot=self.bot))
         self.bot.add_view(CloseButton(bot=self.bot))
         self.bot.add_view(TicketOptions(bot=self.bot))
@@ -68,64 +68,69 @@ class MyView(discord.ui.View):
             discord.SelectOption(
                 label="Support2",  #Name of the 2 Select Menu Option
                 description="Ask questions here!", #Description of the 2 Select Menu Option
-                emoji="❓",        #Emoji of the 2 Option  if you want a Custom Emoji read this  https://github.com/Simoneeeeeeee/Discord-Select-Menu-Ticket-Bot/tree/main#how-to-use-custom-emojis-from-your-discors-server-in-the-select-menu
+                emoji="📛",        #Emoji of the 2 Option  if you want a Custom Emoji read this  https://github.com/Simoneeeeeeee/Discord-Select-Menu-Ticket-Bot/tree/main#how-to-use-custom-emojis-from-your-discors-server-in-the-select-menu
                 value="support2"   #Don't change this value otherwise the code will not work anymore!!!!
             )
         ]
     )
     async def callback(self, select, interaction):
-        if "support1" in interaction.data['values']: 
-            if interaction.channel.id == TICKET_CHANNEL:
-                guild = self.bot.get_guild(GUILD_ID)
-                member_id = interaction.user.id
-                member_name = interaction.user.name
-                cur.execute("SELECT discord_id FROM ticket WHERE discord_id=?", (member_id,)) #Check if the User already has a Ticket open
-                existing_ticket = cur.fetchone()
-                if existing_ticket is None:
-                    cur.execute("INSERT INTO ticket (discord_name, discord_id) VALUES (?, ?)", (member_name, member_id)) #If the User doesn't have a Ticket open it will insert the User into the Database and create a Ticket
+        await interaction.response.defer()
+        timezone = pytz.timezone(TIMEZONE)
+        creation_date = datetime.now(timezone).strftime('%Y-%m-%d %H:%M:%S')
+        user_name = interaction.user.name
+        user_id = interaction.user.id
+
+        cur.execute("SELECT discord_id FROM ticket WHERE discord_id=?", (user_id,)) #Check if the User already has a Ticket open
+        existing_ticket = cur.fetchone()
+
+        if existing_ticket is None:
+            if "support1" in interaction.data['values']:
+                if interaction.channel.id == TICKET_CHANNEL:
+                    guild = self.bot.get_guild(GUILD_ID)
+
+                    cur.execute("INSERT INTO ticket (discord_name, discord_id, ticket_created) VALUES (?, ?, ?)", (user_name, user_id, creation_date)) #If the User doesn't have a Ticket open it will insert the User into the Database and create a Ticket
                     conn.commit()
-                    cur.execute("SELECT id FROM ticket WHERE discord_id=?", (member_id,)) #Get the Ticket Number from the Database
-                    ticket_number = cur.fetchone()
+                    await asyncio.sleep(1)
+                    cur.execute("SELECT id FROM ticket WHERE discord_id=?", (user_id,)) #Get the Ticket Number from the Database
+                    ticket_number = cur.fetchone()[0]
+
                     category = self.bot.get_channel(CATEGORY_ID1)
                     ticket_channel = await guild.create_text_channel(f"ticket-{ticket_number}", category=category,
-                                                                    topic=f"{interaction.user.id}")
+                                                                        topic=f"{interaction.user.id}")
 
                     await ticket_channel.set_permissions(guild.get_role(TEAM_ROLE1), send_messages=True, read_messages=True, add_reactions=False, #Set the Permissions for the Staff Team
-                                                        embed_links=True, attach_files=True, read_message_history=True,
-                                                        external_emojis=True)
+                                                            embed_links=True, attach_files=True, read_message_history=True,
+                                                            external_emojis=True)
                     await ticket_channel.set_permissions(interaction.user, send_messages=True, read_messages=True, add_reactions=False, #Set the Permissions for the User
-                                                        embed_links=True, attach_files=True, read_message_history=True,
-                                                        external_emojis=True)
+                                                            embed_links=True, attach_files=True, read_message_history=True,
+                                                            external_emojis=True)
                     await ticket_channel.set_permissions(guild.default_role, send_messages=False, read_messages=False, view_channel=False) #Set the Permissions for the @everyone role
                     embed = discord.Embed(description=f'Welcome {interaction.user.mention},\n'
-                                                       'describe your Problem and our Support will help you soon.',   #Ticket Welcome message
-                                                    color=discord.colour.Color.blue())
+                                                        'describe your Problem and our Support will help you soon.',   #Ticket Welcome message
+                                                        color=discord.colour.Color.blue())
                     await ticket_channel.send(embed=embed, view=CloseButton(bot=self.bot))
+                    
+                    channel_id = ticket_channel.id
+                    cur.execute("UPDATE ticket SET ticket_channel = ? WHERE id = ?", (channel_id, ticket_number))
+                    conn.commit()
 
                     embed = discord.Embed(description=f'📬 Ticket was Created! Look here --> {ticket_channel.mention}',  
-                                            color=discord.colour.Color.green())
-                    await interaction.response.send_message(embed=embed, ephemeral=True)
+                                                color=discord.colour.Color.green())
+                    await interaction.followup.send(embed=embed, ephemeral=True)
                     await asyncio.sleep(1)
-                    embed = discord.Embed(title="Support-Tickets", color=discord.colour.Color.blue())  
+                    embed = discord.Embed(title=EMBED_TITLE, description=EMBED_DESCRIPTION, color=discord.colour.Color.blue())
                     await interaction.message.edit(embed=embed, view=MyView(bot=self.bot)) #This will reset the SelectMenu in the Ticket Channel
-                else:
-                    embed = discord.Embed(title=f"You already have a open Ticket", color=0xff0000)
-                    await interaction.response.send_message(embed=embed, ephemeral=True) #This will tell the User that he already has a Ticket open
-                    await asyncio.sleep(1)
-                    embed = discord.Embed(title="Support-Tickets", color=discord.colour.Color.blue())
-                    await interaction.message.edit(embed=embed, view=MyView(bot=self.bot)) #This will reset the SelectMenu in the Ticket Channel
-        if "support2" in interaction.data['values']:
-            if interaction.channel.id == TICKET_CHANNEL:
-                guild = self.bot.get_guild(GUILD_ID)
-                member_id = interaction.user.id
-                member_name = interaction.user.name
-                cur.execute("SELECT discord_id FROM ticket WHERE discord_id=?", (member_id,)) #Check if the User already has a Ticket open
-                existing_ticket = cur.fetchone()
-                if existing_ticket is None:
-                    cur.execute("INSERT INTO ticket (discord_name, discord_id) VALUES (?, ?)", (member_name, member_id)) #If the User doesn't have a Ticket open it will insert the User into the Database and create a Ticket
+
+            if "support2" in interaction.data['values']:
+                if interaction.channel.id == TICKET_CHANNEL:
+                    guild = self.bot.get_guild(GUILD_ID)
+
+                    cur.execute("INSERT INTO ticket (discord_name, discord_id, ticket_created) VALUES (?, ?, ?)", (user_name, user_id, creation_date)) #If the User doesn't have a Ticket open it will insert the User into the Database and create a Ticket
                     conn.commit()
-                    cur.execute("SELECT id FROM ticket WHERE discord_id=?", (member_id,)) #Get the Ticket Number from the Database
-                    ticket_number = cur.fetchone()
+                    await asyncio.sleep(1)
+                    cur.execute("SELECT id FROM ticket WHERE discord_id=?", (user_id,)) #Get the Ticket Number from the Database
+                    ticket_number = cur.fetchone()[0]
+
                     category = self.bot.get_channel(CATEGORY_ID2)
                     ticket_channel = await guild.create_text_channel(f"ticket-{ticket_number}", category=category,
                                                                     topic=f"{interaction.user.id}")
@@ -136,25 +141,29 @@ class MyView(discord.ui.View):
                     await ticket_channel.set_permissions(interaction.user, send_messages=True, read_messages=True, add_reactions=False, #Set the Permissions for the User
                                                         embed_links=True, attach_files=True, read_message_history=True,
                                                         external_emojis=True)
+                    
                     await ticket_channel.set_permissions(guild.default_role, send_messages=False, read_messages=False, view_channel=False) #Set the Permissions for the @everyone role
                     embed = discord.Embed(description=f'Welcome {interaction.user.mention},\n' #Ticket Welcome message
                                                        'how can i help you?',
                                                     color=discord.colour.Color.blue())
                     await ticket_channel.send(embed=embed, view=CloseButton(bot=self.bot))
 
+                    channel_id = ticket_channel.id
+                    cur.execute("UPDATE ticket SET ticket_channel = ? WHERE id = ?", (channel_id, ticket_number))
+                    conn.commit()
+
                     embed = discord.Embed(description=f'📬 Ticket was Created! Look here --> {ticket_channel.mention}',
                                             color=discord.colour.Color.green())
-                    await interaction.response.send_message(embed=embed, ephemeral=True)
+                    await interaction.followup.send(embed=embed, ephemeral=True)
                     await asyncio.sleep(1)
-                    embed = discord.Embed(title="Support-Tickets", color=discord.colour.Color.blue())
+                    embed = discord.Embed(title=EMBED_TITLE, description=EMBED_DESCRIPTION, color=discord.colour.Color.blue())
                     await interaction.message.edit(embed=embed, view=MyView(bot=self.bot)) #This will reset the SelectMenu in the Ticket Channel
-                else:
-                    embed = discord.Embed(title=f"You already have a open Ticket", color=0xff0000)
-                    await interaction.response.send_message(embed=embed, ephemeral=True) #This will tell the User that he already has a Ticket open
-                    await asyncio.sleep(1)
-                    embed = discord.Embed(title="Support-Tickets", color=discord.colour.Color.blue())
-                    await interaction.message.edit(embed=embed, view=MyView(bot=self.bot)) #This will reset the SelectMenu in the Ticket Channel
-        return
+        else:
+            embed = discord.Embed(title=f"You already have a open Ticket", color=0xff0000)
+            await interaction.followup.send(embed=embed, ephemeral=True) #This will tell the User that he already has a Ticket open
+            await asyncio.sleep(1)
+            embed = discord.Embed(title=EMBED_TITLE, description=EMBED_DESCRIPTION, color=discord.colour.Color.blue())
+            await interaction.message.edit(embed=embed, view=MyView(bot=self.bot)) #This will reset the SelectMenu in the Ticket Channel
 
 #First Button for the Ticket 
 class CloseButton(discord.ui.View):
@@ -162,21 +171,10 @@ class CloseButton(discord.ui.View):
         self.bot = bot
         super().__init__(timeout=None)
 
-    @discord.ui.button(label="Close Ticket 🎫", style = discord.ButtonStyle.blurple, custom_id="close")
+    @discord.ui.button(label="Delete Ticket 🎫", style = discord.ButtonStyle.blurple, custom_id="close")
     async def close(self, button: discord.ui.Button, interaction: discord.Interaction):
-        guild = self.bot.get_guild(GUILD_ID)
-        ticket_creator = int(interaction.channel.topic)
-        cur.execute("SELECT id FROM ticket WHERE discord_id=?", (ticket_creator,))  # Get the Ticket Number from the Database
-        ticket_number = cur.fetchone()
-        ticket_creator = guild.get_member(ticket_creator)
-
-        embed = discord.Embed(title="Ticket Closed 🎫", description="Press Reopen to open the Ticket again or Delete to delete the Ticket!", color=discord.colour.Color.green())
-        await interaction.channel.set_permissions(ticket_creator, send_messages=False, read_messages=False, add_reactions=False,
-                                                        embed_links=False, attach_files=False, read_message_history=False, #Set the Permissions for the User if the Ticket is closed
-                                                        external_emojis=False)
-        await interaction.channel.edit(name=f"ticket-closed-{ticket_number}")
+        embed = discord.Embed(title="Delete Ticket 🎫", description="Are you sure you want to delete this Ticket?", color=discord.colour.Color.green())
         await interaction.response.send_message(embed=embed, view=TicketOptions(bot=self.bot)) #This will show the User the TicketOptions View
-        button.disabled = True
         await interaction.message.edit(view=self)
 
 
@@ -186,28 +184,16 @@ class TicketOptions(discord.ui.View):
         self.bot = bot
         super().__init__(timeout=None)
 
-    @discord.ui.button(label="Reopen Ticket 🎫", style = discord.ButtonStyle.green, custom_id="reopen")
-    async def reopen_button(self, button: discord.ui.Button, interaction: discord.Interaction):
-        guild = self.bot.get_guild(GUILD_ID)
-        ticket_creator = int(interaction.channel.topic)
-        cur.execute("SELECT id FROM ticket WHERE discord_id=?", (ticket_creator,)) #Get the Ticket Number from the Database
-        ticket_number = cur.fetchone()        
-        embed = discord.Embed(title="Ticket Reopened 🎫", description="Press Delete Ticket to delete the Ticket!", color=discord.colour.Color.green()) #The Embed for the Ticket Channel when it got reopened
-        ticket_creator = guild.get_member(ticket_creator)
-        await interaction.channel.set_permissions(ticket_creator, send_messages=True, read_messages=True, add_reactions=False,
-                                                        embed_links=True, attach_files=True, read_message_history=True, #Set the Permissions for the User if the Ticket is reopened
-                                                        external_emojis=False)
-        await interaction.channel.edit(name=f"ticket-{ticket_number}") #Edit the Ticket Channel Name again
-        await interaction.response.send_message(embed=embed)
-
     @discord.ui.button(label="Delete Ticket 🎫", style = discord.ButtonStyle.red, custom_id="delete")
     async def delete_button(self, button: discord.ui.Button, interaction: discord.Interaction):
         guild = self.bot.get_guild(GUILD_ID)
         channel = self.bot.get_channel(LOG_CHANNEL)
-        ticket_creator = int(interaction.channel.topic)
+        ticket_id = interaction.channel.id
 
-        cur.execute("DELETE FROM ticket WHERE discord_id=?", (ticket_creator,)) #Delete the Ticket from the Database
-        conn.commit()
+        cur.execute("SELECT id, discord_id, ticket_created FROM ticket WHERE ticket_channel=?", (ticket_id,))
+        ticket_data = cur.fetchone()
+        id, ticket_creator_id, ticket_created = ticket_data
+        ticket_created_unix = self.convert_to_unix_timestamp(ticket_created)
 
         #Creating the Transcript
         military_time: bool = True
@@ -228,9 +214,9 @@ class TicketOptions(discord.ui.View):
             io.BytesIO(transcript.encode()),
             filename=f"transcript-{interaction.channel.name}.html")
         
-        ticket_creator = guild.get_member(ticket_creator)
-        embed = discord.Embed(description=f'Ticket is deliting in 5 seconds.', color=0xff0000)
-        transcript_info = discord.Embed(title=f"Ticket Deleting | {interaction.channel.name}", description=f"Ticket from: {ticket_creator.mention}\nTicket Name: {interaction.channel.name} \n Closed from: {interaction.user.mention}", color=discord.colour.Color.blue())
+        ticket_creator = guild.get_member(ticket_creator_id)
+        embed = discord.Embed(description=f'Ticket is deleting in 5 seconds.', color=0xff0000)
+        transcript_info = discord.Embed(title=f"Ticket Deleting | {interaction.channel.name}", description=f"Ticket ID: {id}\nTicket Name: {interaction.channel.name} \nTicket from: {ticket_creator.mention}\nClosed from: {interaction.user.mention}\nTicket Created: <t:{ticket_created_unix}:f>", color=discord.colour.Color.blue())
 
         await interaction.response.send_message(embed=embed)
         #checks if user has dms disabled
@@ -241,3 +227,13 @@ class TicketOptions(discord.ui.View):
         await channel.send(embed=transcript_info, file=transcript_file2)
         await asyncio.sleep(3)
         await interaction.channel.delete(reason="Ticket got Deleted!")
+        cur.execute("DELETE FROM ticket WHERE discord_id=?", (ticket_creator_id,)) #Delete the Ticket from the Database
+        conn.commit()
+
+    def convert_to_unix_timestamp(self, date_string):
+        date_format = "%Y-%m-%d %H:%M:%S"
+        dt_obj = datetime.strptime(date_string, date_format)
+        berlin_tz = pytz.timezone('Europe/Berlin')
+        dt_obj = berlin_tz.localize(dt_obj)
+        dt_obj_utc = dt_obj.astimezone(pytz.utc)
+        return int(dt_obj_utc.timestamp())

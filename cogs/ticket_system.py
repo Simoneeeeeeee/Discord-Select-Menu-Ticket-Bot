@@ -193,19 +193,16 @@ class TicketOptions(discord.ui.View):
         cur.execute("SELECT id, discord_id, ticket_created FROM ticket WHERE ticket_channel=?", (ticket_id,))
         ticket_data = cur.fetchone()
         id, ticket_creator_id, ticket_created = ticket_data
+        ticket_creator = guild.get_member(ticket_creator_id)
+
         ticket_created_unix = self.convert_to_unix_timestamp(ticket_created)
+        timezone = pytz.timezone(TIMEZONE)
+        ticket_closed = datetime.now(timezone).strftime('%Y-%m-%d %H:%M:%S')
+        ticket_closed_unix = self.convert_to_unix_timestamp(ticket_closed)
 
         #Creating the Transcript
         military_time: bool = True
-        transcript = await chat_exporter.export(
-            interaction.channel,
-            limit=200,
-            tz_info=TIMEZONE,
-            military_time=military_time,
-            bot=self.bot,
-        )       
-        if transcript is None:
-            return
+        transcript = await chat_exporter.export(interaction.channel, limit=200, tz_info=TIMEZONE, military_time=military_time, bot=self.bot)
         
         transcript_file = discord.File(
             io.BytesIO(transcript.encode()),
@@ -214,20 +211,24 @@ class TicketOptions(discord.ui.View):
             io.BytesIO(transcript.encode()),
             filename=f"transcript-{interaction.channel.name}.html")
         
-        ticket_creator = guild.get_member(ticket_creator_id)
         embed = discord.Embed(description=f'Ticket is deleting in 5 seconds.', color=0xff0000)
-        transcript_info = discord.Embed(title=f"Ticket Deleting | {interaction.channel.name}", description=f"Ticket ID: {id}\nTicket Name: {interaction.channel.name} \nTicket from: {ticket_creator.mention}\nClosed from: {interaction.user.mention}\nTicket Created: <t:{ticket_created_unix}:f>", color=discord.colour.Color.blue())
+        transcript_info = discord.Embed(title=f"Ticket Deleted | {interaction.channel.name}", color=discord.colour.Color.blue())
+        transcript_info.add_field(name="ID", value=id, inline=True)
+        transcript_info.add_field(name="Opened by", value=ticket_creator.mention, inline=True)
+        transcript_info.add_field(name="Closed by", value=interaction.user.mention, inline=True)
+        transcript_info.add_field(name="Ticket Created", value=f"<t:{ticket_created_unix}:f>", inline=True)
+        transcript_info.add_field(name="Ticket Closed", value=f"<t:{ticket_closed_unix}:f>", inline=True)
 
         await interaction.response.send_message(embed=embed)
-        #checks if user has dms disabled
         try:
             await ticket_creator.send(embed=transcript_info, file=transcript_file)
         except:
-            transcript_info.add_field(name="Error", value="Couldn't send the Transcript to the User because he has his DMs disabled!", inline=True)
+            transcript_info.add_field(name="Error", value="Ticket Creator DM`s are disabled", inline=True)
+
         await channel.send(embed=transcript_info, file=transcript_file2)
         await asyncio.sleep(3)
-        await interaction.channel.delete(reason="Ticket got Deleted!")
-        cur.execute("DELETE FROM ticket WHERE discord_id=?", (ticket_creator_id,)) #Delete the Ticket from the Database
+        await interaction.channel.delete(reason="Ticket Deleted")
+        cur.execute("DELETE FROM ticket WHERE discord_id=?", (ticket_creator_id,))
         conn.commit()
 
     def convert_to_unix_timestamp(self, date_string):

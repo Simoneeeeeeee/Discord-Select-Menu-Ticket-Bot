@@ -1,4 +1,4 @@
-#Version: 1.8
+#Version: 1.9
 #GitHub: https://github.com/Simoneeeeeeee/Discord-Select-Menu-Ticket-Bot
 #Discord: discord.gg/ycZDpat7dB
 

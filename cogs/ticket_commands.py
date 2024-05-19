@@ -76,50 +76,50 @@ class Ticket_Command(commands.Cog):
 
     @commands.slash_command(name="delete", description="Delete the Ticket")
     async def delete_ticket(self, ctx):
-        if "ticket-" in ctx.channel.name:
-            guild = self.bot.get_guild(GUILD_ID)
-            channel = self.bot.get_channel(LOG_CHANNEL)
-            ticket_id = ctx.channel.id
+        guild = self.bot.get_guild(GUILD_ID)
+        channel = self.bot.get_channel(LOG_CHANNEL)
+        ticket_id = ctx.channel.id
 
-            cur.execute("SELECT id, discord_id, ticket_created FROM ticket WHERE ticket_channel=?", (ticket_id,))
-            ticket_data = cur.fetchone()
-            id, ticket_creator_id, ticket_created = ticket_data
-            ticket_created_unix = self.convert_to_unix_timestamp(ticket_created)
+        cur.execute("SELECT id, discord_id, ticket_created FROM ticket WHERE ticket_channel=?", (ticket_id,))
+        ticket_data = cur.fetchone()
+        id, ticket_creator_id, ticket_created = ticket_data
+        ticket_creator = guild.get_member(ticket_creator_id)
 
-            #Creating the Transcript
-            military_time: bool = True
-            transcript = await chat_exporter.export(
-                ctx.channel,
-                limit=200,
-                tz_info=TIMEZONE,
-                military_time=military_time,
-                bot=self.bot,
-            )       
-            if transcript is None:
-                return
-            
-            transcript_file = discord.File(
-                io.BytesIO(transcript.encode()),
-                filename=f"transcript-{ctx.channel.name}.html")
-            transcript_file2 = discord.File(
-                io.BytesIO(transcript.encode()),
-                filename=f"transcript-{ctx.channel.name}.html")
-            
-            ticket_creator = guild.get_member(ticket_creator_id)
-            embed = discord.Embed(description=f'Ticket is deleting in 5 seconds.', color=0xff0000)
-            transcript_info = discord.Embed(title=f"Ticket Deleting | {ctx.channel.name}", description=f"Ticket ID: {id}\nTicket Name: {ctx.channel.name} \nTicket from: {ticket_creator.mention}\nClosed from: {ctx.author.mention}\nTicket Created: <t:{ticket_created_unix}:f>", color=discord.colour.Color.blue())
+        ticket_created_unix = self.convert_to_unix_timestamp(ticket_created)
+        timezone = pytz.timezone(TIMEZONE)
+        ticket_closed = datetime.now(timezone).strftime('%Y-%m-%d %H:%M:%S')
+        ticket_closed_unix = self.convert_to_unix_timestamp(ticket_closed)
 
-            await ctx.respond(embed=embed)
-            #checks if user has dms disabled
-            try:
-                await ticket_creator.send(embed=transcript_info, file=transcript_file)
-            except:
-                transcript_info.add_field(name="Error", value="Couldn't send the Transcript to the User because he has his DMs disabled!", inline=True)
-            await channel.send(embed=transcript_info, file=transcript_file2)
-            await asyncio.sleep(3)
-            await ctx.channel.delete(reason="Ticket got Deleted!")
-            cur.execute("DELETE FROM ticket WHERE discord_id=?", (ticket_creator_id,)) #Delete the Ticket from the Database
-            conn.commit()
+        #Creating the Transcript
+        military_time: bool = True
+        transcript = await chat_exporter.export(ctx.channel, limit=200, tz_info=TIMEZONE, military_time=military_time, bot=self.bot)
+        
+        transcript_file = discord.File(
+            io.BytesIO(transcript.encode()),
+            filename=f"transcript-{ctx.channel.name}.html")
+        transcript_file2 = discord.File(
+            io.BytesIO(transcript.encode()),
+            filename=f"transcript-{ctx.channel.name}.html")
+        
+        embed = discord.Embed(description=f'Ticket is deleting in 5 seconds.', color=0xff0000)
+        transcript_info = discord.Embed(title=f"Ticket Deleted | {ctx.channel.name}", color=discord.colour.Color.blue())
+        transcript_info.add_field(name="ID", value=id, inline=True)
+        transcript_info.add_field(name="Opened by", value=ticket_creator.mention, inline=True)
+        transcript_info.add_field(name="Closed by", value=ctx.author.mention, inline=True)
+        transcript_info.add_field(name="Ticket Created", value=f"<t:{ticket_created_unix}:f>", inline=True)
+        transcript_info.add_field(name="Ticket Closed", value=f"<t:{ticket_closed_unix}:f>", inline=True)
+
+        await ctx.respond(embed=embed)
+        try:
+            await ticket_creator.send(embed=transcript_info, file=transcript_file)
+        except:
+            transcript_info.add_field(name="Error", value="Ticket Creator DM`s are disabled", inline=True)
+
+        await channel.send(embed=transcript_info, file=transcript_file2)
+        await asyncio.sleep(3)
+        await ctx.channel.delete(reason="Ticket Deleted")
+        cur.execute("DELETE FROM ticket WHERE discord_id=?", (ticket_creator_id,))
+        conn.commit()
 
     def convert_to_unix_timestamp(self, date_string):
         date_format = "%Y-%m-%d %H:%M:%S"

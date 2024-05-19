@@ -11,7 +11,7 @@
     <a align=left href='https://imgur.com/a/Z3wAn4c' target="_blank">Imgur Website</a>
 - ### Update v.1.8
   - Fixed Bugs
-  - Works Better now
+  - Added Created/Closed Timestamp into the Logs
 - ### Install all Required Modules
   ```sh
         pip install py-cord==2.4.0

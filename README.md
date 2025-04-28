@@ -49,9 +49,10 @@
 
 - ### How to use Custom emojis from your Discors Server in the Select Menu
   - `Type in the Chat \ but do not send it, now Choose one Emoji that is one your server and press on it. Now it should look like that \<:emoji_name:emoji_id> now just remove the \ and paste the rest in your Code and here you go.`
-- ### Discord
+- ### Information
+  - <a>If you want to Support this Project, then this a Star</a>
+  - <a href="https://github.com/mahtoid/DiscordChatExporterPy">Discord Chat Exporter</a>
   - <a href="https://discord.gg/ycZDpat7dB">Join my DC Server for help and create an Ticket</a>
-  - <a>If you want to Support me give this Project a Star </a>
-  - https://discord.gg/ycZDpat7dB
+  - <a href="https://www.blustboosts.com/">Cheap Discord Server Boosts – BlustBoosts</a>
   
 <p align="center">Apache License 2.0</p>

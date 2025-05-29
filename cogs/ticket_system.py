@@ -1,4 +1,4 @@
-import discord
+import discordi
 import asyncio
 import pytz
 import json

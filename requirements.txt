@@ -1,4 +1,4 @@
-lasyncio==3.4.3
+asyncio==3.4.3
 py-cord==2.4.0
 chat-exporter
 pytz

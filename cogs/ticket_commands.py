@@ -42,6 +42,7 @@ class Ticket_Command(commands.Cog):
     #Slash Command to show the Ticket Menu in the Ticket Channel only needs to be used once
     @commands.slash_command(name="ticket")
     @has_permissions(administrator=True)
+    @commands.guild_only()
     async def ticket(self, ctx):
         self.channel = self.bot.get_channel(TICKET_CHANNEL)
         embed = discord.Embed(title=EMBED_TITLE, description=EMBED_DESCRIPTION, color=discord.colour.Color.blue())

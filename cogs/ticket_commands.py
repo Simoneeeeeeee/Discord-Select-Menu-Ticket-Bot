@@ -42,6 +42,7 @@ class Ticket_Command(commands.Cog):
     #Slash Command to show the Ticket Menu in the Ticket Channel only needs to be used once
     @commands.slash_command(name="ticket")
     @has_permissions(administrator=True)
+    @commands.guild_only()
     async def ticket(self, ctx):
         self.channel = self.bot.get_channel(TICKET_CHANNEL)
         embed = discord.Embed(title=EMBED_TITLE, description=EMBED_DESCRIPTION, color=discord.colour.Color.blue())
@@ -50,6 +51,7 @@ class Ticket_Command(commands.Cog):
 
     #Slash Command to add Members to the Ticket
     @commands.slash_command(name="add", description="Add a Member to the Ticket")
+    @commands.guild_only()
     async def add(self, ctx, member: Option(discord.Member, description="Which Member you want to add to the Ticket", required = True)):
         if "ticket-" in ctx.channel.name or "ticket-closed-" in ctx.channel.name:
             await ctx.channel.set_permissions(member, send_messages=True, read_messages=True, add_reactions=False,
@@ -63,6 +65,7 @@ class Ticket_Command(commands.Cog):
 
     #Slash Command to remove Members from the Ticket
     @commands.slash_command(name="remove", description="Remove a Member from the Ticket")
+    @commands.guild_only()
     async def remove(self, ctx, member: Option(discord.Member, description="Which Member you want to remove from the Ticket", required = True)):
         if "ticket-" in ctx.channel.name or "ticket-closed-" in ctx.channel.name:
             await ctx.channel.set_permissions(member, send_messages=False, read_messages=False, add_reactions=False,
@@ -75,6 +78,7 @@ class Ticket_Command(commands.Cog):
             await ctx.respond(embed=self.embed)
 
     @commands.slash_command(name="delete", description="Delete the Ticket")
+    @commands.guild_only()
     async def delete_ticket(self, ctx):
         guild = self.bot.get_guild(GUILD_ID)
         channel = self.bot.get_channel(LOG_CHANNEL)

@@ -39,6 +39,15 @@ class Ticket_Command(commands.Cog):
         cur.close()
         conn.close()
 
+    @commands.Cog.listener()
+    async def on_application_command_error(self, ctx, error):
+        if isinstance(error, commands.NoPrivateMessage):
+            await ctx.send("**Commands are not allowed in private messages!**")
+        elif isinstance(error, commands.CheckFailure):
+            pass  
+        else:
+            print(f"Unhandled error: {error}")  
+
     #Slash Command to show the Ticket Menu in the Ticket Channel only needs to be used once
     @commands.slash_command(name="ticket")
     @has_permissions(administrator=True)
